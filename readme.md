@@ -1,6 +1,6 @@
 # 🕵️ MetaWraith
 
-> **Advanced Metadata Extraction & Digital Forensic Intelligence Engine**
+> **Advanced Metadata Extraction & Forensic Analysis Engine**
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge\&logo=python)
 ![Platform](https://img.shields.io/badge/Platform-Windows-0078D6?style=for-the-badge\&logo=windows)
@@ -12,174 +12,108 @@
 
 ---
 
-## 🧠 Overview
+## Overview
 
-**MetaWraith** is a cyber-themed OSINT and digital forensics dashboard built in Python.
-It combines **network intelligence** and **deep file metadata forensics** into a single, sleek GUI powered by `CustomTkinter`.
+**MetaWraith** is a Python-based OSINT and digital forensics dashboard that unifies
+**network metadata intelligence** and **deep file forensic analysis** into a single, cyber-themed GUI.
 
-Designed for **students, security researchers, and forensic analysts**, MetaWraith extracts hidden metadata, fingerprints devices, and generates timestamped intelligence reports automatically.
+Built for students, security researchers, and forensic analysis workflows.
 
 ---
 
-## ✨ Key Features
+## Features
 
-### 🌐 Network Intelligence (Web Scanner)
+### Network Intelligence
 
-* Extracts HTTP response headers
-* Parses HTML metadata:
+* Extracts HTTP headers and server metadata
+* Parses HTML meta tags (description, keywords, author, generator)
+* Detects OpenGraph and Twitter Card data
 
-  * Description
-  * Keywords
-  * Author
-  * Generator
-* Detects OpenGraph & Twitter Card tags
-* Auto-formats results for readability
+### File Forensics
 
-### 📂 Deep File Forensics
+* GPS & hidden geolocation extraction
+* Camera and device fingerprinting
+* Software, edit history & document metadata
+* Powered by **ExifTool** (industry standard)
 
-* GPS & geolocation extraction from images
-* Camera & device fingerprinting
-* Software & editing history detection
-* Document metadata analysis (PDF / DOCX)
-* Powered by **ExifTool** (industry-standard forensic engine)
-
-### 🖥️ Application Capabilities
+### Application
 
 * Dark-mode cyber UI (CustomTkinter)
-* Multi-threaded scanning (no UI freezing)
-* Automatic report generation
-* Timestamped forensic logs
+* Multi-threaded scanning (non-blocking)
+* Automatic timestamped report generation
 * Executable-ready (PyInstaller compatible)
 
 ---
 
-## ⚙️ How It Works
+## How It Works
 
-### 🔍 Web Scan Engine
+* **Web Scan:** Uses `requests` and `BeautifulSoup4` to fetch and parse metadata from target URLs.
+* **File Forensics:** Executes `exiftool.exe` via `subprocess`, cleans raw output, and displays it in the dashboard.
 
-* Uses `requests` to fetch target content
-* Parses HTML using `BeautifulSoup4`
-* Filters and displays meaningful metadata
-* Results saved automatically to disk
-
-### 🧬 File Forensic Engine
-
-* Interfaces directly with `exiftool.exe`
-* Executes forensic commands via `subprocess`
-* Cleans raw output for analyst-friendly viewing
-* Logs results to secure text reports
+All scan results are automatically saved to disk.
 
 ---
 
-## 🚀 Installation
+## Installation
 
-### Option 1: Windows Executable (Recommended)
+### Option 1: Windows Executable
 
-No setup required.
-
-1. Go to **Releases**
-   👉 [https://github.com/BGx-11/MetaWraith/releases](https://github.com/BGx-11/MetaWraith/releases)
+1. Visit the **Releases** page
+   [https://github.com/BGx-11/MetaWraith/releases](https://github.com/BGx-11/MetaWraith/releases)
 2. Download `MetaWraith.exe`
-3. Double-click to launch
+3. Run directly (no setup required)
 
 ---
 
-### Option 2: Run from Source (Developers)
-
-#### 1️⃣ Clone the Repository
+### Option 2: Run from Source
 
 ```bash
 git clone https://github.com/BGx-11/MetaWraith.git
 cd MetaWraith
-```
-
-#### 2️⃣ Install Dependencies
-
-```bash
 pip install -r requirements.txt
-```
-
-#### 3️⃣ Verify ExifTool
-
-Make sure `exiftool.exe` exists in the project root.
-
-#### 4️⃣ Run the App
-
-```bash
 python metawraith.py
 ```
 
+Ensure `exiftool.exe` exists in the project root.
+
 ---
 
-## 🧪 Usage Guide
+## Usage
 
 1. Launch **MetaWraith**
-2. Choose a mode:
-
-   * **NETWORK SCAN** → Website metadata
-   * **FILE FORENSICS** → Local file analysis
-3. Provide input:
-
-   * URL (e.g. `https://example.com`)
-   * OR select a file (image / document)
-4. Click **INITIATE SCAN** or **ENGAGE WRAITH**
-5. View results in the terminal panel
-6. Find saved reports inside `wraith_dumps/`
+2. Choose **Network Scan** or **File Forensics**
+3. Enter a URL or select a local file
+4. Click **INITIATE SCAN** / **ENGAGE WRAITH**
+5. View results in-app
+6. Find saved reports in `wraith_dumps/`
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```text
 MetaWraith/
-├── exiftool_files/      # ExifTool support files
-├── wraith_dumps/        # Auto-generated scan reports
-├── exiftool.exe         # Forensic engine
-├── logo.ico             # App icon
-├── logo.png             # README / UI logo
-├── metawraith.py        # Main application
-├── requirements.txt     # Dependencies
-└── README.md            # Documentation
+├── exiftool_files/
+├── wraith_dumps/
+├── exiftool.exe
+├── logo.ico
+├── metawraith.py
+├── requirements.txt
+└── README.md
 ```
 
 ---
 
-## ⚠️ Requirements
+## Disclaimer
 
-* Python **3.10+**
-* Windows OS
-* Internet connection (for web scans)
-
-### Python Libraries
-
-* `customtkinter`
-* `requests`
-* `beautifulsoup4`
-
-(All listed in `requirements.txt`)
+**MetaWraith is intended for educational and authorized security testing only.**
+Do not scan targets or analyze files without explicit permission.
 
 ---
 
-## 🔐 Ethical Disclaimer
+## License
 
-> **MetaWraith is intended strictly for educational and authorized security testing.**
+Licensed under the **MIT License**.
 
-* Do **NOT** scan websites without permission
-* Do **NOT** analyze files you do not own or have consent for
-* The developer is **not responsible** for misuse or legal consequences
-
----
-
-## 📜 License
-
-This project is licensed under the **MIT License**.
-You are free to use, modify, and distribute it with proper credit.
-
----
-
-## 👨‍💻 Author
-
-**Devansh Agarwal (BGx)**
-Security Researcher • Student • Builder
-
-🔗 GitHub: [https://github.com/BGx-11](https://github.com/BGx-11)
+**Developed by BGx (Devansh Agarwal)**
+[https://github.com/BGx-11](https://github.com/BGx-11
