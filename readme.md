@@ -117,5 +117,7 @@ Licensed under the **MIT License**.
 
 ---
 
-**Developed by BGx (Devansh Agarwal)**
-[https://github.com/BGx-11](https://github.com/BGx-11
+<p align="center">
+<strong>Developed by BGx (Devansh Agarwal)</strong><br>
+<em>Cybersecurity Enthusiast & Developer</em>
+</p>
