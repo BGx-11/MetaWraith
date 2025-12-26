@@ -9,7 +9,7 @@
 <br>
 
 <p align="center">
-  <img src="logo.ico" width="120" alt="MetaWraith Logo">
+  <img src="logo.png" width="120" alt="MetaWraith Logo">
 </p>
 
 ## Features
@@ -108,6 +108,3 @@ This project is licensed under the **MIT License**. You are free to modify, dist
 
 **Developed by [BGx**](https://www.google.com/search?q=https://github.com/BGx-11)
 
-```
-
-```
