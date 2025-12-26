@@ -115,5 +115,7 @@ Do not scan targets or analyze files without explicit permission.
 
 Licensed under the **MIT License**.
 
+---
+
 **Developed by BGx (Devansh Agarwal)**
 [https://github.com/BGx-11](https://github.com/BGx-11
