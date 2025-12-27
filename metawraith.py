@@ -26,18 +26,19 @@ SAVE_FOLDER = "wraith_dumps"
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
     try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
         base_path = sys._MEIPASS
     except Exception:
         base_path = os.path.abspath(".")
     return os.path.join(base_path, relative_path)
 
-if os.name == 'nt':
-    ENGINE_PATH = resource_path("exiftool.exe")
-else:
-    ENGINE_PATH = resource_path("exiftool")
-
 if not os.path.exists(SAVE_FOLDER):
     os.makedirs(SAVE_FOLDER)
+
+# --- ENGINE PATH CONFIGURATION ---
+# We now look for the folder 'exiftool_files' which contains perl.exe and the script
+PERL_PATH = resource_path(os.path.join("exiftool_files", "perl.exe"))
+SCRIPT_PATH = resource_path(os.path.join("exiftool_files", "exiftool.pl"))
 
 # --- MAIN APPLICATION ---
 class MetaWraithApp(ctk.CTk):
@@ -51,11 +52,9 @@ class MetaWraithApp(ctk.CTk):
 
         # --- SET WINDOW ICON ---
         try:
-            # Use resource_path so it finds the icon even after compiling
             icon_path = resource_path("logo.ico")
             self.iconbitmap(icon_path)
         except Exception:
-            # Fail silently if logo.ico is missing, app will still run
             pass
         
         # Grid Layout
@@ -213,14 +212,34 @@ class MetaWraithApp(ctk.CTk):
         if not os.path.exists(filepath):
             self.update_ui(self.file_out, "[!] ERROR: Artifact not found.", None, True)
             return
-        if not os.path.exists(ENGINE_PATH):
-            self.update_ui(self.file_out, f"[!] FATAL: Forensic Engine (core) missing.\nPlease reinstall or check directory.", None, True)
+
+        # Check if the internal tools exist (Perl + ExifTool Script)
+        if not os.path.exists(PERL_PATH):
+            self.update_ui(self.file_out, f"[!] FATAL: Perl interpreter missing at:\n{PERL_PATH}", None, True)
             return
+        if not os.path.exists(SCRIPT_PATH):
+            self.update_ui(self.file_out, f"[!] FATAL: ExifTool script missing at:\n{SCRIPT_PATH}", None, True)
+            return
+
         try:
+            # Construct the command: perl.exe exiftool.pl [args] [file]
+            command = [PERL_PATH, SCRIPT_PATH, "-a", "-u", "-g1", "-s", filepath]
+
+            # Hide console window on Windows
+            startupinfo = None
+            if os.name == 'nt':
+                startupinfo = subprocess.STARTUPINFO()
+                startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+
             process = subprocess.run(
-                [ENGINE_PATH, "-a", "-u", "-g1", "-s", filepath],
-                capture_output=True, text=True, encoding='utf-8', errors='ignore'
+                command,
+                capture_output=True, 
+                text=True, 
+                encoding='utf-8', 
+                errors='ignore',
+                startupinfo=startupinfo
             )
+
             clean_lines = []
             skip = False
             for line in process.stdout.splitlines():
@@ -230,7 +249,10 @@ class MetaWraithApp(ctk.CTk):
 
             result_text = "\n".join(clean_lines)
             if not result_text.strip():
-                result_text = "[*] No hidden metadata found on this artifact."
+                if process.stderr:
+                    result_text = f"[!] ENGINE ERROR:\n{process.stderr}"
+                else:
+                    result_text = "[*] No hidden metadata found on this artifact."
 
             self.update_ui(self.file_out, result_text, os.path.basename(filepath))
 
